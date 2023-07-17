@@ -29,6 +29,7 @@ class BackUpState {
   final bool backupRequireWifi;
   final bool backupRequireCharging;
   final int backupTriggerDelay;
+  final bool sync;
 
   /// All available albums on the device
   final List<AvailableAlbum> availableAlbums;
@@ -62,6 +63,7 @@ class BackUpState {
     required this.allUniqueAssets,
     required this.selectedAlbumsBackupAssetsIds,
     required this.currentUploadAsset,
+    required this.sync,
   });
 
   BackUpState copyWith({
@@ -75,6 +77,7 @@ class BackUpState {
     bool? backgroundBackup,
     bool? backupRequireWifi,
     bool? backupRequireCharging,
+    bool? sync,
     int? backupTriggerDelay,
     List<AvailableAlbum>? availableAlbums,
     Set<AvailableAlbum>? selectedBackupAlbums,
@@ -92,6 +95,7 @@ class BackUpState {
       cancelToken: cancelToken ?? this.cancelToken,
       serverInfo: serverInfo ?? this.serverInfo,
       autoBackup: autoBackup ?? this.autoBackup,
+      sync: sync ?? this.sync,
       backgroundBackup: backgroundBackup ?? this.backgroundBackup,
       backupRequireWifi: backupRequireWifi ?? this.backupRequireWifi,
       backupRequireCharging:
@@ -109,7 +113,7 @@ class BackUpState {
 
   @override
   String toString() {
-    return 'BackUpState(backupProgress: $backupProgress, allAssetsInDatabase: $allAssetsInDatabase, progressInPercentage: $progressInPercentage, iCloudDownloadProgress: $iCloudDownloadProgress, cancelToken: $cancelToken, serverInfo: $serverInfo, autoBackup: $autoBackup, backgroundBackup: $backgroundBackup, backupRequireWifi: $backupRequireWifi, backupRequireCharging: $backupRequireCharging, backupTriggerDelay: $backupTriggerDelay, availableAlbums: $availableAlbums, selectedBackupAlbums: $selectedBackupAlbums, excludedBackupAlbums: $excludedBackupAlbums, allUniqueAssets: $allUniqueAssets, selectedAlbumsBackupAssetsIds: $selectedAlbumsBackupAssetsIds, currentUploadAsset: $currentUploadAsset)';
+    return 'BackUpState(backupProgress: $backupProgress, allAssetsInDatabase: $allAssetsInDatabase, progressInPercentage: $progressInPercentage, iCloudDownloadProgress: $iCloudDownloadProgress, cancelToken: $cancelToken, serverInfo: $serverInfo, autoBackup: $autoBackup, sync: $sync, backgroundBackup: $backgroundBackup, backupRequireWifi: $backupRequireWifi, backupRequireCharging: $backupRequireCharging, backupTriggerDelay: $backupTriggerDelay, availableAlbums: $availableAlbums, selectedBackupAlbums: $selectedBackupAlbums, excludedBackupAlbums: $excludedBackupAlbums, allUniqueAssets: $allUniqueAssets, selectedAlbumsBackupAssetsIds: $selectedAlbumsBackupAssetsIds, currentUploadAsset: $currentUploadAsset)';
   }
 
   @override
@@ -124,6 +128,7 @@ class BackUpState {
         other.cancelToken == cancelToken &&
         other.serverInfo == serverInfo &&
         other.autoBackup == autoBackup &&
+        other.sync == sync &&
         other.backgroundBackup == backgroundBackup &&
         other.backupRequireWifi == backupRequireWifi &&
         other.backupRequireCharging == backupRequireCharging &&
@@ -148,6 +153,7 @@ class BackUpState {
         cancelToken.hashCode ^
         serverInfo.hashCode ^
         autoBackup.hashCode ^
+        sync.hashCode ^
         backgroundBackup.hashCode ^
         backupRequireWifi.hashCode ^
         backupRequireCharging.hashCode ^

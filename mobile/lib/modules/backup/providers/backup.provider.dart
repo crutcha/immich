@@ -43,6 +43,8 @@ class BackupNotifier extends StateNotifier<BackUpState> {
             cancelToken: CancellationToken(),
             autoBackup: Store.get(StoreKey.autoBackup, false),
             backgroundBackup: Store.get(StoreKey.backgroundBackup, false),
+            sync: Store.get(StoreKey.sync, false),
+            backgroundBackup: false,
             backupRequireWifi: Store.get(StoreKey.backupRequireWifi, true),
             backupRequireCharging:
                 Store.get(StoreKey.backupRequireCharging, false),
@@ -136,6 +138,11 @@ class BackupNotifier extends StateNotifier<BackUpState> {
   void setAutoBackup(bool enabled) {
     Store.put(StoreKey.autoBackup, enabled);
     state = state.copyWith(autoBackup: enabled);
+  }
+
+  void setSync(bool enabled) {
+    Store.put(StoreKey.sync, enabled);
+    state = state.copyWith(sync: enabled);
   }
 
   void configureBackgroundBackup({

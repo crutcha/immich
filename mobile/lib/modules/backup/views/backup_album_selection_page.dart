@@ -21,6 +21,9 @@ class BackupAlbumSelectionPage extends HookConsumerWidget {
     final isDarkTheme = context.isDarkTheme;
     final albums = ref.watch(backupProvider).availableAlbums;
 
+    // sync stuff
+    final syncCheckboxValue = useState(false);
+
     useEffect(
       () {
         ref.watch(backupProvider.notifier).getBackupInfo();
