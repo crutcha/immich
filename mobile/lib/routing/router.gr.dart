@@ -507,7 +507,7 @@ class _$AppRouter extends RootStackRouter {
         ),
         RouteConfig(
           AlbumViewerRoute.name,
-          path: '/',
+          path: '/album-viewer-page',
           guards: [
             authGuard,
             duplicateGuard,
@@ -1020,7 +1020,7 @@ class AlbumViewerRoute extends PageRouteInfo<AlbumViewerRouteArgs> {
     required int albumId,
   }) : super(
           AlbumViewerRoute.name,
-          path: '/',
+          path: '/album-viewer-page',
           args: AlbumViewerRouteArgs(
             key: key,
             albumId: albumId,

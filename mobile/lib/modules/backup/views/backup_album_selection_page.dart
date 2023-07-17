@@ -26,6 +26,9 @@ class BackupAlbumSelectionPage extends HookConsumerWidget {
     final filteredAlbums = useState(allAlbums);
     final albums = filteredAlbums.value;
 
+    // sync stuff
+    final syncCheckboxValue = useState(false);
+
     useEffect(
       () {
         ref.watch(backupProvider.notifier).getBackupInfo();

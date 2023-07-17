@@ -170,6 +170,7 @@ class BackupControllerPage extends HookConsumerWidget {
       );
     }
 
+
     Widget buildStorageInformation() {
       return ListTile(
         leading: Icon(
@@ -308,6 +309,65 @@ class BackupControllerPage extends HookConsumerWidget {
             ],
           );
         },
+      );
+    }
+
+    Widget buildSyncController() {
+      //final isSyncEnabled = useState(backupState.sync);
+      final bool isSyncEnabled = backupState.sync;
+      final Color activeColor = Theme.of(context).primaryColor;
+
+      return Column(
+        children: [
+          ListTile(
+            isThreeLine: true,
+            leading: isSyncEnabled
+                ? Icon(
+              Icons.sync,
+              color: activeColor,
+            )
+                : const Icon(Icons.sync_disabled),
+            title: Text(
+              isSyncEnabled
+                  ? "Sync mode is enabled"
+                  : "Sync mode is disabled",
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            ).tr(),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (!isSyncEnabled)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: const Text(
+                      "backup_controller_page_background_description",
+                    ).tr(),
+                  ),
+                if (isSyncEnabled)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: const Text(
+                        "Sync mode will delete assets from Immich that do not exist on your phone",
+                    ).tr(),
+                  ),
+                ElevatedButton(
+                  onPressed: () => ref
+                      .read(backupProvider.notifier)
+                      .setSync(!isSyncEnabled),
+                  child: Text(
+                    isSyncEnabled
+                        ? "Turn off sync mode"
+                        : "Turn on sync mode",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ).tr(),
+                ),
+              ],
+            ),
+          ),
+        ],
       );
     }
 
@@ -762,6 +822,8 @@ class BackupControllerPage extends HookConsumerWidget {
             ),
             if (showBackupFix) const Divider(),
             if (showBackupFix) buildCheckCorruptBackups(),
+            const Divider(),
+            buildSyncController(),
             const Divider(),
             buildStorageInformation(),
             const Divider(),
