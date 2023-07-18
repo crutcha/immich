@@ -29,6 +29,8 @@ class BackupControllerPage extends HookConsumerWidget {
 
     bool hasExclusiveAccess =
         backupState.backupProgress != BackUpProgressEnum.inBackground;
+    // HERE! when sync toggle is enabled, the logic for shouldBackup needs to
+    // be different.
     bool shouldBackup = backupState.allUniqueAssets.length -
                     backupState.selectedAlbumsBackupAssetsIds.length ==
                 0 ||
