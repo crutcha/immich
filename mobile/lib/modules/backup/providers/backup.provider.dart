@@ -445,6 +445,14 @@ class BackupNotifier extends StateNotifier<BackUpState> {
         assetsWillBeBackup.removeWhere((e) => e.id == assetId);
       }
 
+      Set<String> assetsWillBeRemoved = {};
+      // Remove items that have been deleted locally from server
+      for (final assetId in state.allAssetsInDatabase) {
+        if (!state.allUniqueAssets.contains(assetId)) {
+          assetsWillBeRemoved.add(assetId);
+        }
+      }
+
       if (assetsWillBeBackup.isEmpty) {
         state = state.copyWith(backupProgress: BackUpProgressEnum.idle);
       }
