@@ -11,7 +11,7 @@ export class TimeBucketDto {
   size!: TimeBucketSize;
 
   @ValidateUUID({ optional: true })
-  userId?: string;
+  userIds?: string[];
 
   @ValidateUUID({ optional: true })
   albumId?: string;

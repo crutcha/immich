@@ -8,6 +8,8 @@
   import { handleError } from '../../utils/handle-error';
   import SettingInputField, { SettingInputFieldType } from '../admin-page/settings/setting-input-field.svelte';
   import Button from '../elements/buttons/button.svelte';
+  import SettingInputField from '../admin-page/settings/setting-input-field.svelte';
+  import SettingSwitch from '../admin-page/settings/setting-switch.svelte';
 
   export let user: UserResponseDto;
 
@@ -19,6 +21,7 @@
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
+          partnerViewEnabled: user.partnerViewEnabled,
         },
       });
 
@@ -75,6 +78,12 @@
           disabled={true}
           value={user.externalPath || ''}
           required={false}
+        />
+
+        <SettingSwitch
+          title="Partner View"
+          subtitle="View all partner photos in timeline"
+          bind:checked={user.partnerViewEnabled}
         />
 
         <div class="flex justify-end">

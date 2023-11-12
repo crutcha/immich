@@ -7,6 +7,7 @@
   import { handleError } from '../../utils/handle-error';
   import Icon from '$lib/components/elements/icon.svelte';
   import { mdiAccountEditOutline } from '@mdi/js';
+  import SettingSwitch from '../admin-page/settings/setting-switch.svelte';
 
   export let user: UserResponseDto;
   export let canResetPassword = true;
@@ -101,7 +102,7 @@
     </div>
 
     <div class="m-4 flex flex-col gap-2">
-      <label class="immich-form-label" for="storage-label">Storage Label</label>
+      <label class="immich-form-label" for="storage-label">Storage Label2</label>
       <input
         class="immich-form-input"
         id="storage-label"
@@ -133,6 +134,16 @@
         path.
       </p>
     </div>
+
+    <div class="m-4 flex flex-col gap-2">
+      <label class="immich-form-label" for="partner-view-enabled">Partner View</label>
+      <SettingSwitch
+        title="Partner View"
+        subtitle="View all partner photos in timeline"
+        bind:checked={user.partnerViewEnabled}
+      />
+    </div>
+
 
     {#if error}
       <p class="ml-4 text-sm text-red-400">{error}</p>

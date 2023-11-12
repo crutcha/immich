@@ -16,6 +16,7 @@ import {
   ICommunicationRepository,
   ICryptoRepository,
   IJobRepository,
+  IPartnerRepository,
   IStorageRepository,
   ISystemConfigRepository,
   ImmichReadStream,
@@ -78,6 +79,7 @@ export class AssetService {
   constructor(
     @Inject(IAccessRepository) accessRepository: IAccessRepository,
     @Inject(IAssetRepository) private assetRepository: IAssetRepository,
+    @Inject(IPartnerRepository) private partnerRepository: IPartnerRepository,
     @Inject(ICryptoRepository) private cryptoRepository: ICryptoRepository,
     @Inject(IJobRepository) private jobRepository: IJobRepository,
     @Inject(ISystemConfigRepository) configRepository: ISystemConfigRepository,
@@ -178,19 +180,28 @@ export class AssetService {
     if (dto.albumId) {
       await this.access.requirePermission(authUser, Permission.ALBUM_READ, [dto.albumId]);
     } else {
-      dto.userId = dto.userId || authUser.id;
+      dto.userIds = dto.userIds || [authUser.id]
+      if (authUser.partnerViewEnabled) {
+        let partnerIds: string[] = await this.partnerRepository.getPartnerIds(authUser.id);
+        dto.userIds = dto.userIds.concat(partnerIds);
+      }
     }
 
-    if (dto.userId) {
-      await this.access.requirePermission(authUser, Permission.TIMELINE_READ, [dto.userId]);
+    if (dto.userIds) {
+      await this.access.requirePermission(authUser, Permission.TIMELINE_READ, dto.userIds);
       if (dto.isArchived !== false) {
-        await this.access.requirePermission(authUser, Permission.ARCHIVE_READ, [dto.userId]);
+        await this.access.requirePermission(authUser, Permission.ARCHIVE_READ, dto.userIds);
       }
     }
   }
 
   async getTimeBuckets(authUser: AuthUserDto, dto: TimeBucketDto): Promise<TimeBucketResponseDto[]> {
     await this.timeBucketChecks(authUser, dto);
+
+    // TODO: just make the dto user id a list, instead of tracking partner IDs separately
+    //let partnerIds: string[] = await this.partnerRepository.getPartnerIds(authUser.id);
+    //dto.partnerIds = partnerIds;
+
     return this.assetRepository.getTimeBuckets(dto);
   }
 
@@ -199,6 +210,11 @@ export class AssetService {
     dto: TimeBucketAssetDto,
   ): Promise<AssetResponseDto[] | SanitizedAssetResponseDto[]> {
     await this.timeBucketChecks(authUser, dto);
+
+    // TODO: just make the dto user id a list, instead of tracking partner IDs separately
+    //let partnerIds: string[] = await this.partnerRepository.getPartnerIds(authUser.id);
+    //dto.partnerIds = partnerIds;
+
     const assets = await this.assetRepository.getTimeBucket(dto.timeBucket, dto);
     if (authUser.isShowMetadata) {
       return assets.map((asset) => mapAsset(asset, { withStack: true }));

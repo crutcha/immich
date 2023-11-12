@@ -519,8 +519,9 @@ export class AssetRepository implements IAssetRepository {
   }
 
   private getBuilder(options: TimeBucketOptions) {
-    const { isArchived, isFavorite, isTrashed, albumId, personId, userId, withStacked } = options;
+    const { isArchived, isFavorite, isTrashed, albumId, personId, userIds, withStacked } = options;
 
+    // HERE
     let builder = this.repository
       .createQueryBuilder('asset')
       .where('asset.isVisible = true')
@@ -532,8 +533,8 @@ export class AssetRepository implements IAssetRepository {
       builder = builder.leftJoin('asset.albums', 'album').andWhere('album.id = :albumId', { albumId });
     }
 
-    if (userId) {
-      builder = builder.andWhere('asset.ownerId = :userId', { userId });
+    if (userIds) {
+      builder = builder.andWhere('asset.ownerId IN (:...userIds)', { userIds });
     }
 
     if (isArchived != undefined) {

@@ -17,4 +17,5 @@ export interface IPartnerRepository {
   get(partner: PartnerIds): Promise<PartnerEntity | null>;
   create(partner: PartnerIds): Promise<PartnerEntity>;
   remove(entity: PartnerEntity): Promise<void>;
+  getPartnerIds(userId: string): Promise<string[]>;
 }

@@ -1,8 +1,9 @@
 import { IPartnerRepository, PartnerIds } from '@app/domain';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Entity, Repository } from 'typeorm';
 import { PartnerEntity } from '../entities';
+import { ENTRY_PROVIDER_WATERMARK } from '@nestjs/common/constants';
 
 @Injectable()
 export class PartnerRepository implements IPartnerRepository {
@@ -23,5 +24,21 @@ export class PartnerRepository implements IPartnerRepository {
 
   async remove(entity: PartnerEntity): Promise<void> {
     await this.repository.remove(entity);
+  }
+
+  async getPartnerIds(userId: string): Promise<string[]> {
+    let partnerIds: string[] = [];
+
+    let partnerEntries: PartnerEntity[] = await this.getAll(userId);
+    for (var entry of partnerEntries) {
+      if (entry.sharedById != userId) {
+        partnerIds.push(entry.sharedById);
+      }
+      if (entry.sharedWithId != userId) {
+        partnerIds.push(entry.sharedWithId);
+      }
+    }
+
+    return partnerIds;
   }
 }

@@ -17,7 +17,8 @@ services:
     command: npm run start:debug immich
     volumes:
       - ../server:/usr/src/app
-      - ${UPLOAD_LOCATION}/photos:/usr/src/app/upload
+      #- ${UPLOAD_LOCATION}/photos:/usr/src/app/upload
+      - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - /usr/src/app/node_modules
       - /etc/localtime:/etc/localtime:ro
     ports:

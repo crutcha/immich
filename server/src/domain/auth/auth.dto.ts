@@ -14,6 +14,7 @@ export class AuthUserDto {
   isShowMetadata?: boolean;
   accessTokenId?: string;
   externalPath?: string | null;
+  partnerViewEnabled?: boolean;
 }
 
 export class LoginCredentialDto {

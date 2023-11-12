@@ -2013,12 +2013,15 @@
             }
           },
           {
-            "name": "userId",
+            "name": "userIds",
             "required": false,
             "in": "query",
             "schema": {
               "format": "uuid",
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           },
           {
@@ -2141,12 +2144,15 @@
             }
           },
           {
-            "name": "userId",
+            "name": "userIds",
             "required": false,
             "in": "query",
             "schema": {
               "format": "uuid",
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           },
           {
@@ -9031,6 +9037,9 @@
           "memoriesEnabled": {
             "type": "boolean"
           },
+          "partnerViewEnabled": {
+            "type": "boolean"
+          },
           "password": {
             "type": "string"
           },
@@ -9140,6 +9149,9 @@
           },
           "oauthId": {
             "type": "string"
+          },
+          "partnerViewEnabled": {
+            "type": "boolean"
           },
           "profileImagePath": {
             "type": "string"

@@ -1361,6 +1361,12 @@ export interface CreateUserDto {
     'memoriesEnabled'?: boolean;
     /**
      * 
+     * @type {boolean}
+     * @memberof CreateUserDto
+     */
+    'partnerViewEnabled'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof CreateUserDto
      */
@@ -4302,6 +4308,12 @@ export interface UpdateUserDto {
     'memoriesEnabled'?: boolean;
     /**
      * 
+     * @type {boolean}
+     * @memberof UpdateUserDto
+     */
+    'partnerViewEnabled'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof UpdateUserDto
      */
@@ -4459,6 +4471,11 @@ export interface UserResponseDto {
      * @memberof UserResponseDto
      */
     'memoriesEnabled'?: boolean;
+    /**
+     * @type {boolean}
+     * @memberof UserResponseDto
+     */
+    'partnerViewEnabled'?: boolean;
     /**
      * 
      * @type {string}
