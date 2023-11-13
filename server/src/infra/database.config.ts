@@ -1,4 +1,4 @@
-import { DataSource, Logger } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 const url = process.env.DB_URL;
@@ -15,7 +15,6 @@ const urlOrParts = url
 export const databaseConfig: PostgresConnectionOptions = {
   type: 'postgres',
   entities: [__dirname + '/entities/*.entity.{js,ts}'],
-  //logging: ["query", "error", "schema", "warn", "info", "log"],
   synchronize: false,
   migrations: [__dirname + '/migrations/*.{js,ts}'],
   subscribers: [__dirname + '/subscribers/*.{js,ts}'],

@@ -1,9 +1,8 @@
 import { IPartnerRepository, PartnerIds } from '@app/domain';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Entity, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { PartnerEntity } from '../entities';
-import { ENTRY_PROVIDER_WATERMARK } from '@nestjs/common/constants';
 
 @Injectable()
 export class PartnerRepository implements IPartnerRepository {

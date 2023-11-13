@@ -197,11 +197,6 @@ export class AssetService {
 
   async getTimeBuckets(authUser: AuthUserDto, dto: TimeBucketDto): Promise<TimeBucketResponseDto[]> {
     await this.timeBucketChecks(authUser, dto);
-
-    // TODO: just make the dto user id a list, instead of tracking partner IDs separately
-    //let partnerIds: string[] = await this.partnerRepository.getPartnerIds(authUser.id);
-    //dto.partnerIds = partnerIds;
-
     return this.assetRepository.getTimeBuckets(dto);
   }
 
@@ -210,10 +205,6 @@ export class AssetService {
     dto: TimeBucketAssetDto,
   ): Promise<AssetResponseDto[] | SanitizedAssetResponseDto[]> {
     await this.timeBucketChecks(authUser, dto);
-
-    // TODO: just make the dto user id a list, instead of tracking partner IDs separately
-    //let partnerIds: string[] = await this.partnerRepository.getPartnerIds(authUser.id);
-    //dto.partnerIds = partnerIds;
 
     const assets = await this.assetRepository.getTimeBucket(dto.timeBucket, dto);
     if (authUser.isShowMetadata) {

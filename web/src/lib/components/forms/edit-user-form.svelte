@@ -7,7 +7,6 @@
   import { handleError } from '../../utils/handle-error';
   import Icon from '$lib/components/elements/icon.svelte';
   import { mdiAccountEditOutline } from '@mdi/js';
-  import SettingSwitch from '../admin-page/settings/setting-switch.svelte';
 
   export let user: UserResponseDto;
   export let canResetPassword = true;
@@ -21,13 +20,12 @@
 
   const editUser = async () => {
     try {
-      const { id, email, firstName, lastName, storageLabel, externalPath } = user;
+      const { id, email, name, storageLabel, externalPath } = user;
       const { status } = await api.userApi.updateUser({
         updateUserDto: {
           id,
           email,
-          firstName,
-          lastName,
+          name,
           storageLabel: storageLabel || '',
           externalPath: externalPath || '',
         },
@@ -85,24 +83,12 @@
     </div>
 
     <div class="m-4 flex flex-col gap-2">
-      <label class="immich-form-label" for="firstName">First Name</label>
-      <input
-        class="immich-form-input"
-        id="firstName"
-        name="firstName"
-        type="text"
-        required
-        bind:value={user.firstName}
-      />
+      <label class="immich-form-label" for="name">Name</label>
+      <input class="immich-form-input" id="name" name="name" type="text" required bind:value={user.name} />
     </div>
 
     <div class="m-4 flex flex-col gap-2">
-      <label class="immich-form-label" for="lastName">Last Name</label>
-      <input class="immich-form-input" id="lastName" name="lastName" type="text" required bind:value={user.lastName} />
-    </div>
-
-    <div class="m-4 flex flex-col gap-2">
-      <label class="immich-form-label" for="storage-label">Storage Label2</label>
+      <label class="immich-form-label" for="storage-label">Storage Label</label>
       <input
         class="immich-form-input"
         id="storage-label"
@@ -135,16 +121,6 @@
       </p>
     </div>
 
-    <div class="m-4 flex flex-col gap-2">
-      <label class="immich-form-label" for="partner-view-enabled">Partner View</label>
-      <SettingSwitch
-        title="Partner View"
-        subtitle="View all partner photos in timeline"
-        bind:checked={user.partnerViewEnabled}
-      />
-    </div>
-
-
     {#if error}
       <p class="ml-4 text-sm text-red-400">{error}</p>
     {/if}
@@ -172,7 +148,7 @@
   >
     <svelte:fragment slot="prompt">
       <p>
-        Are you sure you want to reset <b>{user.firstName} {user.lastName}</b>'s password?
+        Are you sure you want to reset <b>{user.name}</b>'s password?
       </p>
     </svelte:fragment>
   </ConfirmDialogue>
