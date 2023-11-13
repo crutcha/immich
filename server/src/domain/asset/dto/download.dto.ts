@@ -11,6 +11,7 @@ export class DownloadInfoDto {
 
   @ValidateUUID({ optional: true })
   userId?: string;
+  //userIds?: string[];
 
   @IsInt()
   @IsPositive()

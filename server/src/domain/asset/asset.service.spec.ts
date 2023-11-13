@@ -7,6 +7,7 @@ import {
   faceStub,
   newAccessRepositoryMock,
   newAssetRepositoryMock,
+  newPartnerRepositoryMock,
   newCommunicationRepositoryMock,
   newCryptoRepositoryMock,
   newJobRepositoryMock,
@@ -20,6 +21,7 @@ import {
   AssetStats,
   CommunicationEvent,
   IAssetRepository,
+  IPartnerRepository,
   ICommunicationRepository,
   ICryptoRepository,
   IJobRepository,
@@ -159,6 +161,7 @@ describe(AssetService.name, () => {
   let sut: AssetService;
   let accessMock: IAccessRepositoryMock;
   let assetMock: jest.Mocked<IAssetRepository>;
+  let partnerMock: jest.Mocked<IPartnerRepository>;
   let cryptoMock: jest.Mocked<ICryptoRepository>;
   let jobMock: jest.Mocked<IJobRepository>;
   let storageMock: jest.Mocked<IStorageRepository>;
@@ -172,12 +175,13 @@ describe(AssetService.name, () => {
   beforeEach(async () => {
     accessMock = newAccessRepositoryMock();
     assetMock = newAssetRepositoryMock();
+    partnerMock = newPartnerRepositoryMock();
     communicationMock = newCommunicationRepositoryMock();
     cryptoMock = newCryptoRepositoryMock();
     jobMock = newJobRepositoryMock();
     storageMock = newStorageRepositoryMock();
     configMock = newSystemConfigRepositoryMock();
-    sut = new AssetService(accessMock, assetMock, cryptoMock, jobMock, configMock, storageMock, communicationMock);
+    sut = new AssetService(accessMock, assetMock, partnerMock, cryptoMock, jobMock, configMock, storageMock, communicationMock);
 
     when(assetMock.getById)
       .calledWith(assetStub.livePhotoStillAsset.id)
@@ -356,14 +360,14 @@ describe(AssetService.name, () => {
           size: TimeBucketSize.DAY,
           timeBucket: 'bucket',
           isArchived: true,
-          userId: [authStub.admin.id],
+          userIds: [authStub.admin.id],
         }),
       ).resolves.toEqual(expect.arrayContaining([expect.objectContaining({ id: 'asset-id' })]));
       expect(assetMock.getTimeBucket).toBeCalledWith('bucket', {
         size: TimeBucketSize.DAY,
         timeBucket: 'bucket',
         isArchived: true,
-        userId: [authStub.admin.id],
+        userIds: [authStub.admin.id],
       });
     });
 
@@ -495,7 +499,7 @@ describe(AssetService.name, () => {
         hasNextPage: false,
       });
 
-      await expect(sut.getDownloadInfo(authStub.admin, { userIds: [authStub.admin.id] })).resolves.toEqual(
+      await expect(sut.getDownloadInfo(authStub.admin, { userId: authStub.admin.id })).resolves.toEqual(
         downloadResponse,
       );
 
@@ -519,7 +523,7 @@ describe(AssetService.name, () => {
 
       await expect(
         sut.getDownloadInfo(authStub.admin, {
-          userIds: [authStub.admin.id],
+          userId: authStub.admin.id,
           archiveSize: 30_000,
         }),
       ).resolves.toEqual({
